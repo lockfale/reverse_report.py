@@ -2,10 +2,19 @@
 import urllib2
 from urllib2 import urlopen, HTTPError
 import json
+import sys
+import signal
 
 RR_URL = "https://reverse.report/commonapi/v1/name/%s.json?page=0"
 
+
+def signal_handler(signal, frame):
+    print('You pressed Ctrl+C!')
+    sys.exit(0)
+
 def rr_search(domain):
+    signal.signal(signal.SIGINT, signal_handler)
+
     domains = []
     ips = []
     both = []
